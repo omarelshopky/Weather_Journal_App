@@ -24,3 +24,14 @@ app.use(express.static('website'));
 // Setup Server
 const port = 3000;
 const server = app.listen(port, () => {console.log(`Connect to localhost:${port}`);}); // Callback Function to make sure server is running 
+
+
+
+// Spin up the server
+// Callback to debug
+
+// Initialize all route with a callback function
+
+// Callback function to complete GET '/all'
+
+// Post Route

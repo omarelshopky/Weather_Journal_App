@@ -17,3 +17,11 @@ function addNewEntry(event) {
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+
+
+/* Function to GET Web API Data*/
+
+/* Function to POST data */
+
+
+/* Function to GET Project Data */
