@@ -21,20 +21,27 @@ document.getElementById('add').addEventListener('click', addNewEntry);
 
 /* Function called by event listener */
 function addNewEntry(event) {
-    getCityData(apiUrl, '361059', apiKey)
+    let userFeel = document.getElementById('feelings').value; // Get user input
+
+    getCityData(apiUrl, '361059', apiKey) // send GET request to weather API to get city data
 
     .then(function(cityData){
-        //postData('/add', cityData);
-    });
+        const newEntry = { // Arrange an object to hold all data user inputed
+            'temperature' : cityData.main.temp,
+            'date' : getDate(),
+            'userFeel' : userFeel
+        };
 
-    
-    console.log("clicked");
+        postData('/add', newEntry); // Send all data to the server
+    });
 }
 
 
 // Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+function getDate() {
+    let date = new Date();
+    return newDate = date.getMonth()+'.'+ date.getDate()+'.'+ date.getFullYear();
+}
 
 
 /* Function to GET Web API Data*/
@@ -43,7 +50,6 @@ const getCityData = async (baseURL, userCityId, apiKey) => {
 
     try{
         const cityData = await request.json();
-        console.log(cityData);
         return cityData;
     }
     catch(error){
@@ -63,16 +69,8 @@ const postData = async ( url = '', data = {})=>{
     },
     body: JSON.stringify(data),  
   });
-
-    try {
-      const newData = await response.json();
-      return newData
-    }catch(error) {
-        console.log("error", error);
-    }
 }
 
-postData('/add', {animal: 'lion'});
 
 
 /* Function to GET Project Data */

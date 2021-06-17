@@ -9,9 +9,8 @@ const app = express();
 
 /* Middleware*/
 /***            Here we are configuring express to use body-parser as middle-ware               ***/
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false })); //Parse URL-encoded bodies
+app.use(express.json());
 
 /***            Cors for cross origin allowance             ***/
 const cors = require('cors');
@@ -49,6 +48,8 @@ function sendCityList(req, res){
 
 
 // Post Route
+const data = [];
+
 function addData(req, res){
     const newEntry = {
         'temperature' : req.body.temperature,
@@ -56,7 +57,7 @@ function addData(req, res){
         'userFeel' : req.body.userFeel
     };
 
-    projectData.push(newEntry);
+    data.push(newEntry);
     console.log(newEntry);
     res.send("POST recieved");
 }
