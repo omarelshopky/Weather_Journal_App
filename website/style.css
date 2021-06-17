@@ -68,7 +68,8 @@ body{
 }
 
 .title{
-
+    font-size: 25px;
+    font-weight: bold;
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */

@@ -38,7 +38,7 @@ app.post('/add', addData);
 
 // Callback function to complete GET '/all'
 function retrieveData(req, res){
-    res.send(projectData);
+    res.send(data);
 }
 
 
@@ -58,6 +58,6 @@ function addData(req, res){
     };
 
     data.push(newEntry);
-    console.log(newEntry);
+    console.log(data);
     res.send("POST recieved");
 }

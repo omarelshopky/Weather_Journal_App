@@ -4,16 +4,18 @@ const apiKey = '&appid=53058c171c2fa87400423531cdf9bf51'; // Personal API Key fo
 
 /***        Fill textboxes with autocomplete list       ***/
 const fillCountryList = async (url = '') => {
-    const cityList = await fetch(url);
+    const request = await fetch(url);
     try{
+        const cityList = await request.json();
         console.log(cityList);
+        return cityList;
     }
     catch(error){
         console.log("error", error);
     }
 }
 
-//fillCountryList('/list');
+fillCountryList('/list');
 
 /***          Event listener to add function to existing HTML DOM element           ***/
 document.getElementById('add').addEventListener('click', addNewEntry);
@@ -33,7 +35,10 @@ function addNewEntry(event) {
         };
 
         postData('/add', newEntry); // Send all data to the server
-    });
+
+        updateUI();
+    })
+
 }
 
 
@@ -41,6 +46,15 @@ function addNewEntry(event) {
 function getDate() {
     let date = new Date();
     return newDate = date.getMonth()+'.'+ date.getDate()+'.'+ date.getFullYear();
+}
+
+
+/* fell country code autocomplete list */
+
+
+/*   function to get city ID  */
+const getCityID = (countryCode, cityName) =>{
+
 }
 
 
@@ -72,13 +86,17 @@ const postData = async ( url = '', data = {})=>{
 }
 
 
-
-/* Function to GET Project Data */
-const getProjectData = async (url = '') => {
-    const request = await fetch(url);
+/* Update UI*/
+const updateUI = async () => {
+    const request = await fetch('/all');
 
     try{
         const projectData = await request.json();
+        console.log(projectData.length);
+        
+        document.getElementById('temp').innerHTML = (projectData[projectData.length - 1].temperature - 273.15).toFixed(2) + '`C';
+        document.getElementById('date').innerHTML = projectData[projectData.length - 1].date;
+        document.getElementById('content').innerHTML = projectData[projectData.length - 1].userFeel;
     }
     catch(error){
         console.log("error", error);
