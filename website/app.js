@@ -1,57 +1,71 @@
 /***            Global Variables         ***/
 const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?id=';
 const apiKey = '&appid=53058c171c2fa87400423531cdf9bf51'; // Personal API Key for OpenWeatherMap API
-let cityList = {};
+let countryList = document.getElementById('countryList');
+let cityList = document.getElementById('cityList');
+let citiesDataList = {};
 
-/***        Fill textboxes with autocomplete list       ***/
+/***        Fill country code textbox with autocomplete list       ***/
 const getCityList = async () => {
     const request = await fetch('/list');
     try{
-        cityList = await request.json();
-        console.log(cityList);
-        return cityList;
+        citiesDataList = await request.json();
+        return citiesDataList;
     }
     catch(error){
         console.log("error", error);
     }
 }; 
 
-const arrangeAutocomplete = (() =>{
+const arrangeCountryAutocomplete = (() =>{
     getCityList()
-    .then(function(cityList) {
-        fillCountryAutocomplete(cityList);
+    .then(function(citiesDataList) {
+        fillCountryAutocomplete(citiesDataList);
     });
-
 })() //IIFE (Immediately Invoked Function Expression)
 
 
 
 const fillCountryAutocomplete = (list) => {
-    let countryList = document.getElementById('countryList');
     let div = document.createElement('div');
     let countryArray = [];
-    for(let i = 0; i < cityList.length; i++){
-        if(!countryArray.includes(cityList[i].country)){
-            countryArray.push(cityList[i].country);
+    for(let i = 0; i < citiesDataList.length; i++){
+        if(!countryArray.includes(citiesDataList[i].country)){
+            countryArray.push(citiesDataList[i].country);
             let option = document.createElement('option');
-            option.value = cityList[i].country;
+            option.value = citiesDataList[i].country;
             div.appendChild(option);
         }
     }
-
     countryList.appendChild(div);
 }
 
 
 /***          Event listener to add function to existing HTML DOM element           ***/
 document.getElementById('add').addEventListener('click', addNewEntry);
+document.getElementById('city-name').addEventListener('focus', fillCityAutocomplete);
 
 
 /* Function called by event listener */
+function fillCityAutocomplete(event){
+    let countryCode = document.getElementById('country-code').value;
+    let div = document.createElement('div');
+    for(let i = 0; i < citiesDataList.length; i++){
+        if(citiesDataList[i].country === countryCode){
+            let option = document.createElement('option');
+            option.value = citiesDataList[i].name;
+            div.appendChild(option);
+        }
+    }
+    cityList.removeChild(cityList.childNodes[0]);
+    cityList.appendChild(div);
+}
+
 function addNewEntry(event) {
     let userFeel = document.getElementById('feelings').value; // Get user input
+    let cityID = getCityID();
 
-    getCityData(apiUrl, '361059', apiKey) // send GET request to weather API to get city data
+    getCityData(apiUrl, cityID, apiKey) // send GET request to weather API to get city data
 
     .then(function(cityData){
         const newEntry = { // Arrange an object to hold all data user inputed
@@ -79,8 +93,15 @@ function getDate() {
 
 
 /*   function to get city ID  */
-const getCityID = (countryCode, cityName) =>{
+const getCityID = () =>{
+    let countryCode = document.getElementById('country-code').value;
+    let cityName = document.getElementById('city-name').value;
 
+    for(let i = 0; i < citiesDataList.length; i++){
+        if(citiesDataList[i].country === countryCode && citiesDataList[i].name === cityName){
+            return citiesDataList[i].id;
+        }
+    }
 }
 
 
