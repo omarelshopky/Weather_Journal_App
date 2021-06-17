@@ -30,11 +30,32 @@ const server = app.listen(port, () => {console.log(`Connect to localhost:${port}
 
 
 
-// Spin up the server
-// Callback to debug
-
 // Initialize all route with a callback function
+app.get('/all', retrieveData);
+app.get('/list', sendCityList);
+
+app.post('/add', addData);
+
 
 // Callback function to complete GET '/all'
+function retrieveData(req, res){
+    res.send(projectData);
+}
+
+
+function sendCityList(req, res){
+    res.send(citylist);
+}
+
 
 // Post Route
+function addData(req, res){
+    const newEntry = {
+        'temperature' : req.body.temperature,
+        'date' : req.body.date,
+        'userFeel' : req.body.userFeel
+    };
+
+    projectData.push(newEntry);
+    console.log(newEntry);
+}
