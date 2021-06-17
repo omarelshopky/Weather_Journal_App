@@ -58,4 +58,5 @@ function addData(req, res){
 
     projectData.push(newEntry);
     console.log(newEntry);
+    res.send("POST recieved");
 }
