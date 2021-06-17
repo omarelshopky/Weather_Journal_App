@@ -5,8 +5,13 @@ let countryList = document.getElementById('countryList');
 let cityList = document.getElementById('cityList');
 let citiesDataList = {};
 
-/***        Fill country code textbox with autocomplete list       ***/
-const getCityList = async () => {
+/***                        Fill country code textbox with autocomplete list                    ***/
+
+/**
+ * @description Get Cities Data from server side
+ * @returns CitiesDataList contain all countries code, cities name and ID 
+ */
+const getCitiesDataList = async () => {
     const request = await fetch('/list');
     try{
         citiesDataList = await request.json();
@@ -17,21 +22,29 @@ const getCityList = async () => {
     }
 }; 
 
+
+/**
+ * @description Arrange what to be perform to set Country autocomplete list
+ */
 const arrangeCountryAutocomplete = (() =>{
-    getCityList()
+    getCitiesDataList()
     .then(function(citiesDataList) {
         fillCountryAutocomplete(citiesDataList);
     });
 })() //IIFE (Immediately Invoked Function Expression)
 
 
-
+/**
+ * @description Fill Country autocomplete list with distinct country code
+ * @param {*} list CitiesDataList contains all Cities Details
+ */
 const fillCountryAutocomplete = (list) => {
     let div = document.createElement('div');
     let countryArray = [];
     for(let i = 0; i < citiesDataList.length; i++){
-        if(!countryArray.includes(citiesDataList[i].country)){
+        if(!countryArray.includes(citiesDataList[i].country)){ // Check if the country code is distinct
             countryArray.push(citiesDataList[i].country);
+
             let option = document.createElement('option');
             option.value = citiesDataList[i].country;
             div.appendChild(option);
@@ -40,16 +53,24 @@ const fillCountryAutocomplete = (list) => {
     countryList.appendChild(div);
 }
 
+/******************************************************************************************/
+
 
 /***          Event listener to add function to existing HTML DOM element           ***/
-document.getElementById('add').addEventListener('click', addNewEntry);
-document.getElementById('city-name').addEventListener('focus', fillCityAutocomplete);
+document.getElementById('city-name').addEventListener('focus', fillCityAutocomplete); // User focus on City Name textbox
+
+document.getElementById('add').addEventListener('click', addNewEntry); // Click on the ADD Button
 
 
-/* Function called by event listener */
+
+/**
+ * @description Function called by event listener to Fill City Name autocomplete list according to chosen Country code
+ * @param {*} event focus event details
+ */
 function fillCityAutocomplete(event){
     let countryCode = document.getElementById('country-code').value;
     let div = document.createElement('div');
+
     for(let i = 0; i < citiesDataList.length; i++){
         if(citiesDataList[i].country === countryCode){
             let option = document.createElement('option');
@@ -57,10 +78,17 @@ function fillCityAutocomplete(event){
             div.appendChild(option);
         }
     }
-    cityList.removeChild(cityList.childNodes[0]);
+
+    cityList.removeChild(cityList.childNodes[0]); // Remove the last div 
     cityList.appendChild(div);
 }
 
+
+
+/**
+ * @description Function called by event listener to Arrange what to be perform to post newEntry to server side
+ * @param {*} event click event details
+ */
 function addNewEntry(event) {
     let userFeel = document.getElementById('feelings').value; // Get user input
     let cityID = getCityID();
@@ -82,17 +110,22 @@ function addNewEntry(event) {
 }
 
 
-// Create a new date instance dynamically with JS
+
+/**
+ * @description Create a new date instance dynamically with JS
+ * @returns current Date
+ */
 function getDate() {
     let date = new Date();
     return newDate = date.getMonth()+'.'+ date.getDate()+'.'+ date.getFullYear();
 }
 
 
-/* fell country code autocomplete list */
 
-
-/*   function to get city ID  */
+/**
+ * @description Get CityID according to chosen Country code and City name
+ * @returns Chosen cityID
+ */
 const getCityID = () =>{
     let countryCode = document.getElementById('country-code').value;
     let cityName = document.getElementById('city-name').value;
@@ -105,7 +138,14 @@ const getCityID = () =>{
 }
 
 
-/* Function to GET Web API Data*/
+
+/**
+ * @description GET Data from Web API (OpenWeatherMap.com) 
+ * @param {*} baseURL OpenWeatherMap API url
+ * @param {*} userCityId chosen CityID want to get its data
+ * @param {*} apiKey Our API KEY
+ * @returns chosen City Data
+ */
 const getCityData = async (baseURL, userCityId, apiKey) => {
     const request = await fetch(baseURL + userCityId + apiKey);
 
@@ -119,7 +159,12 @@ const getCityData = async (baseURL, userCityId, apiKey) => {
 }
 
 
-/* Function to POST data */
+
+/**
+ * @description Post Data to the server side
+ * @param {*} url where we want to post
+ * @param {*} data what we want to post
+ */
 const postData = async ( url = '', data = {})=>{
 
     const response = await fetch(url, {
@@ -133,7 +178,10 @@ const postData = async ( url = '', data = {})=>{
 }
 
 
-/* Update UI*/
+
+/**
+ * @description Update UI with the data GET from the server side
+ */
 const updateUI = async () => {
     const request = await fetch('/all');
 
