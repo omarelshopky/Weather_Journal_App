@@ -1,5 +1,5 @@
 /***            Setup empty JS object to act as endpoint for all routes             ***/
-projectData = {};
+projectData = [];
 
 /***            Require Express to run server and routes                ***/
 const express = require('express');
@@ -45,7 +45,6 @@ function sendCityList(req, res){
 
 
 // Post Route
-const data = [];
 app.post('/add', addData);
 
 function addData(req, res){
@@ -55,7 +54,7 @@ function addData(req, res){
         'userFeel' : req.body.userFeel
     };
 
-    data.push(newEntry);
-    console.log(data);
+    projectData.push(newEntry);
+    console.log(projectData);
     res.send("POST recieved");
 }
