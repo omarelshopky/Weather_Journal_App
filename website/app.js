@@ -1,21 +1,47 @@
 /***            Global Variables         ***/
 const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?id=';
 const apiKey = '&appid=53058c171c2fa87400423531cdf9bf51'; // Personal API Key for OpenWeatherMap API
+let cityList = {};
 
 /***        Fill textboxes with autocomplete list       ***/
-const fillCountryList = async (url = '') => {
-    const request = await fetch(url);
+const getCityList = async () => {
+    const request = await fetch('/list');
     try{
-        const cityList = await request.json();
+        cityList = await request.json();
         console.log(cityList);
         return cityList;
     }
     catch(error){
         console.log("error", error);
     }
+}; 
+
+const arrangeAutocomplete = (() =>{
+    getCityList()
+    .then(function(cityList) {
+        fillCountryAutocomplete(cityList);
+    });
+
+})() //IIFE (Immediately Invoked Function Expression)
+
+
+
+const fillCountryAutocomplete = (list) => {
+    let countryList = document.getElementById('countryList');
+    let div = document.createElement('div');
+    let countryArray = [];
+    for(let i = 0; i < cityList.length; i++){
+        if(!countryArray.includes(cityList[i].country)){
+            countryArray.push(cityList[i].country);
+            let option = document.createElement('option');
+            option.value = cityList[i].country;
+            div.appendChild(option);
+        }
+    }
+
+    countryList.appendChild(div);
 }
 
-fillCountryList('/list');
 
 /***          Event listener to add function to existing HTML DOM element           ***/
 document.getElementById('add').addEventListener('click', addNewEntry);
@@ -92,7 +118,6 @@ const updateUI = async () => {
 
     try{
         const projectData = await request.json();
-        console.log(projectData.length);
         
         document.getElementById('temp').innerHTML = (projectData[projectData.length - 1].temperature - 273.15).toFixed(2) + '`C';
         document.getElementById('date').innerHTML = projectData[projectData.length - 1].date;
