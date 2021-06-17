@@ -32,7 +32,7 @@ const server = app.listen(port, () => {console.log(`Connect to localhost:${port}
 app.get('/all', retrieveData);
 
 function retrieveData(req, res){
-    res.send(data);
+    res.send(projectData);
 }
 
 
