@@ -140,8 +140,8 @@ const updateUI = async () => {
     try{
         const projectData = await request.json();
         
-        document.getElementById('temp').innerHTML = (projectData[projectData.length - 1].temperature - 273.15).toFixed(2) + '`C';
-        document.getElementById('date').innerHTML = projectData[projectData.length - 1].date;
+        document.getElementById('temp').innerHTML = 'Temp: ' + (projectData[projectData.length - 1].temperature - 273.15).toFixed(2) + '`C';
+        document.getElementById('date').innerHTML = 'Date: ' + projectData[projectData.length - 1].date;
         document.getElementById('content').innerHTML = projectData[projectData.length - 1].userFeel;
     }
     catch(error){
