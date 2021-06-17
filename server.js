@@ -28,19 +28,16 @@ const port = 3000;
 const server = app.listen(port, () => {console.log(`Connect to localhost:${port}`);}); // Callback Function to make sure server is running 
 
 
-
-// Initialize all route with a callback function
-app.get('/all', retrieveData);
-app.get('/list', sendCityList);
-
-app.post('/add', addData);
-
-
 // Callback function to complete GET '/all'
+app.get('/all', retrieveData);
+
 function retrieveData(req, res){
     res.send(data);
 }
 
+
+// Callback function to send citylist.json file
+app.get('/list', sendCityList);
 
 function sendCityList(req, res){
     res.send(citylist);
@@ -49,6 +46,7 @@ function sendCityList(req, res){
 
 // Post Route
 const data = [];
+app.post('/add', addData);
 
 function addData(req, res){
     const newEntry = {
