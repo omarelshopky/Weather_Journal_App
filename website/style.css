@@ -5,15 +5,18 @@ body{
 
 #app{
     display: grid;
-    grid-auto-rows: minmax(150px, auto);
+    /*grid-auto-rows: minmax(150px, auto);*/
     /* grid-template-columns:  */
     height:100vh;
     background: #f23557;
     color: #f0d43a;
     justify-content: center;
-    grid-gap: 1em;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
+    grid-template-columns: 2fr repeat(3, 1fr) 2fr;
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
 .holder{
@@ -22,7 +25,25 @@ body{
 
 .entry{
     background: rgba(59, 74, 107, .4);
+    grid-area: 3 / 5 / 6 / 6;
 }
+
+.country{
+    grid-area: 3 / 2 / 4 / 3;
+}
+
+.city{
+    grid-area: 4 / 2 / 5 / 3;
+}
+
+.feel{
+    grid-area: 5 / 2 / 6 / 3;
+}
+
+.add{
+    grid-area: 6 / 3 / 7 / 4;
+}
+
 
 #entryHolder{
 
@@ -41,8 +62,11 @@ body{
 }
 
 .headline {
-
+    grid-area: 1 / 1 / 2 / 3;
+    font-size: 38px;
+    text-align: center;
 }
+
 .title{
 
 }
@@ -65,8 +89,8 @@ input{
 }
 
 button{
-    width: 400px;
-    height: 100px;
+    width: 250px;
+    height: 70px;
     background: #3b4a6b;
     color: #f0d43a;
     font-size: 26px;
@@ -74,6 +98,7 @@ button{
     border: none;
     box-shadow: 2px 4px 5px #444;
 }
+
 h1{
     font-size: 36px;
 }
@@ -109,3 +134,6 @@ button:focus {
     font-family: 'Oswald', sans-serif;
 
 } 
+
+
+

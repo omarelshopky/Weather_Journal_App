@@ -3,6 +3,8 @@
 const apiUrl = 'api.openweathermap.org/data/2.5/weather?id=';
 const apiKey = '&appid=53058c171c2fa87400423531cdf9bf51'; // Personal API Key for OpenWeatherMap API
 
+/***        Fill textboxes with autocomplete list       ***/
+
 
 /***          Event listener to add function to existing HTML DOM element           ***/
 document.getElementById('add').addEventListener('click', addNewEntry);
