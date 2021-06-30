@@ -1,6 +1,6 @@
 /***            Global Variables         ***/
 const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?id=';
-const apiKey = '&appid=53058c171c2fa87400423531cdf9bf51'; // Personal API Key for OpenWeatherMap API
+const apiKey = '&appid=53058c171c2fa87400423531cdf9bf51&units=metric'; // Personal API Key for OpenWeatherMap API
 let countryList = document.getElementById('countryList');
 let cityList = document.getElementById('cityList');
 let citiesDataList = {};
@@ -117,7 +117,8 @@ function addNewEntry(event) {
  */
 function getDate() {
     let date = new Date();
-    return newDate = date.getMonth()+'.'+ date.getDate()+'.'+ date.getFullYear();
+    date.m
+    return newDate = (date.getMonth() + 1)+'.'+ date.getDate()+'.'+ date.getFullYear();
 }
 
 
@@ -188,7 +189,7 @@ const updateUI = async () => {
     try{
         const projectData = await request.json();
         
-        document.getElementById('temp').innerHTML = 'Temp: ' + (projectData[projectData.length - 1].temperature - 273.15).toFixed(2) + '`C';
+        document.getElementById('temp').innerHTML = 'Temp: ' + projectData[projectData.length - 1].temperature.toFixed(2) + '`C';
         document.getElementById('date').innerHTML = 'Date: ' + projectData[projectData.length - 1].date;
         document.getElementById('content').innerHTML = projectData[projectData.length - 1].userFeel;
     }
