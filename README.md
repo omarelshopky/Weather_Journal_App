@@ -11,7 +11,10 @@
 
 ## Introduction
 This project requires you to create an asynchronous web app that uses Web API and user data to dynamically update the UI. 
-
+˗ Set up localhost using express node.js.
+˗ Made connection between the app and OpenWeatherMap API to get countries' data.
+˗ Routed HTTP requests between API, host, and the app.
+˗ Used HTML, CSS, JavaScript and Node.js.
 
 ## Project Summary
 Starting from setup Node environment, Install the packages Express, Body-Parser, and Cors from the terminal and set up a local server in your machine.   
